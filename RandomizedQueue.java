@@ -106,16 +106,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // unit testing
     public static void main(String[] args) {
         RandomizedQueue<Integer> q = new RandomizedQueue<Integer>();
-        q.enqueue(890);
-        q.enqueue(682);
-        System.out.println(q.sample());
-        System.out.println(q.dequeue());
-        System.out.println(q.dequeue());
-        System.out.println(q.isEmpty());
-        System.out.println(q.size());
-        System.out.println(q.isEmpty());
-        q.enqueue(510);
-        Iterator<Integer> it = q.iterator();
-        while (it.hasNext()) System.out.println(it.next());
+        while (q.size() < 10) {
+            q.enqueue(StdRandom.uniform(10));
+        }
     }
 }
