@@ -3,7 +3,7 @@ import edu.princeton.cs.algs4.StdRandom;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class Deque<Item> {
+public class Deque<Item> implements Iterable<Item> {
 
     private Node first, last;
     private int size;
