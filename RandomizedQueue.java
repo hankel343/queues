@@ -44,8 +44,12 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     //construct an empty randomized queue
     public RandomizedQueue() {
-        items
-                = (Item[]) new Object[1]; //Need to instantiate as an array of Objects and then cast down to items
+        items = (Item[]) new Object[1];
+    }
+
+    public RandomizedQueue(int k) {
+        capacity = k;
+        items = (Item[]) new Object[capacity];
     }
 
     public boolean isEmpty() {

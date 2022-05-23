@@ -4,3 +4,4 @@
 ..gitignore.un~
 *.lift
 *.idea
+*.class
