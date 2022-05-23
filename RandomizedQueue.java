@@ -1,3 +1,4 @@
+import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Iterator;
@@ -9,25 +10,24 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private int capacity = 1, N = 0;
 
     private class ListIterator<Item> implements Iterator<Item> {
-        private boolean[] isUsed = new boolean[N];
-        int size = N;
+
+        private int current = 0;
 
         ListIterator() {
-            for (int i = 0; i < N; i++) {
-                isUsed[i] = false;
-            }
+            StdRandom.shuffle(items, 0, N); // Put items in a random order
         }
 
-        Item Next() {
-            int randIndex = StdRandom.uniform(N);
-            while (!isUsed[randIndex]) {
-                randIndex = StdRandom.uniform(N);
-            }
-            return items[randIndex];
+        public boolean hasNext() {
+            return (current != capacity && items[current] != null);
+        }
+
+        public Item next() {
+            Item temp = (Item) items[current++];
+            return temp;
         }
     }
 
-    private Item[] resize(int capacity) {
+    private void resize(int capacity) {
         Item[] copy = (Item[]) new Object[capacity];
         for (int i = 0; i < N; i++) {
             copy[i] = items[i];
@@ -64,9 +64,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         if (N == capacity) {
             resize(capacity * 2);
+            capacity *= 2;
         }
         items[N++] = item;
-        N++;
     }
 
     // remove and return a random item
@@ -76,7 +76,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         Swap(StdRandom.uniform(N));
         Item temp = items[--N];
-        if (N > 0 && N == capacity / 4) resize(capacity / 2);
+        if (N > 0 && N == capacity / 4) {
+            resize(capacity / 2);
+            capacity /= 2;
+        }
+
         return temp;
     }
 
@@ -95,6 +99,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // unit testing
     public static void main(String[] args) {
+        RandomizedQueue<Integer> q = new RandomizedQueue<Integer>();
+        while (q.size() < 5) {
+            q.enqueue(StdRandom.uniform(10));
+        }
 
+        Iterator<Integer> it = q.iterator();
+        while (it.hasNext()) {
+            StdOut.print(it.next());
+        }
     }
 }
