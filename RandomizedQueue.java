@@ -1,4 +1,3 @@
-import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Iterator;
@@ -22,8 +21,15 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
 
         public Item next() {
+            if (!hasNext())
+                throw new NoSuchElementException();
+
             Item temp = (Item) items[current++];
             return temp;
+        }
+
+        public void remove() {
+            throw new UnsupportedOperationException();
         }
     }
 
@@ -75,6 +81,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         Swap(StdRandom.uniform(N));
         Item temp = items[--N];
+        items[N] = null;
         if (N > 0 && N == capacity / 4) {
             resize(capacity / 2);
             capacity /= 2;
@@ -99,13 +106,16 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // unit testing
     public static void main(String[] args) {
         RandomizedQueue<Integer> q = new RandomizedQueue<Integer>();
-        while (q.size() < 5) {
-            q.enqueue(StdRandom.uniform(10));
-        }
-
+        q.enqueue(890);
+        q.enqueue(682);
+        System.out.println(q.sample());
+        System.out.println(q.dequeue());
+        System.out.println(q.dequeue());
+        System.out.println(q.isEmpty());
+        System.out.println(q.size());
+        System.out.println(q.isEmpty());
+        q.enqueue(510);
         Iterator<Integer> it = q.iterator();
-        while (it.hasNext()) {
-            StdOut.print(it.next());
-        }
+        while (it.hasNext()) System.out.println(it.next());
     }
 }

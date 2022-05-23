@@ -1,5 +1,3 @@
-import edu.princeton.cs.algs4.StdRandom;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -26,6 +24,8 @@ public class Deque<Item> implements Iterable<Item> {
         }
 
         public Item next() {
+            if (!hasNext()) throw new NoSuchElementException();
+
             Item item = current.data;
             current = current.next;
             return item;
@@ -57,6 +57,7 @@ public class Deque<Item> implements Iterable<Item> {
         Node newNode = new Node();
         newNode.data = item;
         newNode.next = first;
+        if (size >= 1) first.prev = newNode;
         newNode.prev = null;
         first = newNode;
         size++;
@@ -94,10 +95,15 @@ public class Deque<Item> implements Iterable<Item> {
             throw new NoSuchElementException();
 
         Item temp = first.data;
-        first = first.next;
-        first.prev = null;
-        if (first == null)
+
+        if (first.next == null) {
+            first = null;
             last = null;
+        }
+        else {
+            first = first.next;
+            first.prev = null;
+        }
 
         size--;
         return temp;
@@ -109,10 +115,14 @@ public class Deque<Item> implements Iterable<Item> {
             throw new NoSuchElementException();
 
         Item temp = last.data;
+
         last = last.prev;
-        last.next = null;
-        if (last == null)
+        if (size > 1) {
+            last.next = null;
+        }
+        else {
             first = null;
+        }
 
         size--;
         return temp;
@@ -126,15 +136,8 @@ public class Deque<Item> implements Iterable<Item> {
     // unit testing
     public static void main(String[] args) {
         Deque<Integer> D = new Deque<Integer>();
-        while (D.size() < 10) {
-            D.addFirst(StdRandom.uniform(20));
-            D.addLast(StdRandom.uniform(20));
-        }
-
-        Iterator<Integer> it = D.iterator();
-        while (it.hasNext()) {
-            int val = it.next();
-            System.out.print(val);
-        }
+        D.addFirst(1);
+        D.addFirst(2);
+        D.removeLast();
     }
 }

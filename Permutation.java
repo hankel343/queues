@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 public class Permutation {
     public static void main(String[] args) {
+        int k = Integer.parseInt(args[0]);
         RandomizedQueue<String> q = new RandomizedQueue<String>();
 
         while (!StdIn.isEmpty()) {
@@ -13,8 +14,9 @@ public class Permutation {
         }
 
         Iterator<String> it = q.iterator();
-        while (it.hasNext()) {
+        while (it.hasNext() && k > 0) {
             StdOut.println(it.next());
+            k--;
         }
     }
 }
